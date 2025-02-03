@@ -1,0 +1,234 @@
+@startuml diagramaClasse
+class PostgreSQLConnection{
+    - dbname: String
+    - user: String
+    - password: String
+    - host: String
+    - port: String
+    - conn: Object
+    - cursor: Object
+
+    + connect(): void
+    + close(): void
+    + execute_query(): List
+}
+
+class Atendente{
+    - nome: String
+    - usuario: String
+    - senha: String
+
+    + getNome(): String
+    + setNome(): void
+    + getUsuario(): String
+    + setUsuario(): void
+    + getSenha(): String
+    + setSenha(): void
+}
+
+class Cliente {
+    - nome: String
+    - endereco: String
+    - fone: String
+    - bairro: String
+
+    + getNome(): String
+    + setNome(nome: String): void
+    + getEndereco(): String
+    + setEndereco(endereco: String): void
+    + getFone(): String
+    + setFone(fone: String): void
+    + getBairro(): String
+    + setBairro(bairro: String): void
+}
+
+class Pizza {
+    - sabor: String
+    - tamanho: String
+    - preco: float
+
+    + getSabor(): String
+    + setSabor(sabor: String): void
+    + getTamanho(): String
+    + setTamanho(tamanho: String): void
+    + getPreco(): float
+    + setPreco(preco: float): void
+}
+
+class Pedido {
+    - atendente: Atendente
+    - cliente: Cliente
+    - status: String
+    - valor: float
+    - itens: List
+  
+    + getCliente(): Cliente
+    + setCliente(cliente: Cliente): void
+    + getAtendente(): Atendente
+    + setAtendente(atendente: Atendente): void
+    + getStatus(): String
+    + setStatus(status: String): void
+    + getValor(): float
+    + adicionarValor(valor: float): void
+    + getItens(): List
+    + adicionarItem(item: Object): void
+}
+
+class ItemPedido {
+    - pizza: Pizza
+    - quantidade: int
+
+    + getPizza(): Pizza
+    + setPizza(pizza: Pizza): void
+    + getQuantidade(): int
+    + setQuantidade(quantidade: int): void
+}
+
+class Controller {
+    - db: PostgreSQLConnection
+    - atendente: Atendente
+    - cliente: Cliente
+    - pedido: Pedido
+
+    + getAtendente(): Atendente
+    + setAtendente(atendente: Atendente): void
+    + getCliente(): Cliente
+    + setCliente(cliente: Cliente): void
+    + getPedido(): Pedido
+    + setPedido(pedido: Pedido): void
+    + fazerLogin(usuario: String, senha: String): boolean
+    + cadastrarAtendente(nome: String, usuario: String, senha: String): boolean
+    + cadastrarCliente(nome: String, endereco: String, fone: String, bairro: String): boolean
+    + cadastrarPedido(atendente: Atendente, cliente: Cliente, status: String): boolean
+    + montarPizza(sabor: String, tamanho: String, preco: float): Pizza
+    + montarItemPedido(pizza: Pizza, quantidade: int): ItemPedido
+    + cadastrarClienteBD(cliente: Cliente): boolean
+    + cadastrarPedidoBD(pedido: Pedido): boolean
+    + cadastrarItemPedidoBD(pedido: Pedido): boolean
+    + buscarSabores(): List
+    + buscarPreco(sabor: String, tamanho: String): float
+    + buscarCodAten(atendente: Atendente): int
+    + buscarCodCli(cliente: Cliente): int
+    + buscarCodPiz(pizza: Pizza): int
+    + buscarUltimoCodPed(): int
+    + calcularValor(pedido: Pedido): float
+    + limparDados(): void
+}
+
+class Login {
+    - controller: Controller
+    - labelTitulo: CTkLabel
+    - frame: CTkFrame
+    - labelUsuario: CTkLabel
+    - entryUsuario: CTkEntry
+    - labelSenha: CTkLabel
+    - entrySenha: CTkEntry
+    - buttomLogin: CTkButton
+    - labelResposta: CTkLabel
+
+    + fazerLogin(): void
+}
+
+class Menu {
+    - controller: Controller
+    - labelTitulo: CTkLabel
+    - buttomRegistrarPedido: CTkButton
+
+    + registrarPedido(): void
+}
+
+class RegistrarPedidoCliente {
+    - controller: Controller
+    - labelTitulo: CTkLabel
+    - labelCliente: CTkLabel
+    - frame: CTkFrame
+    - labelNomeCliente: CTkLabel
+    - entryNomeCliente: CTkEntry
+    - labelEnderecoCliente: CTkLabel
+    - entryEnderecoCliente: CTkEntry
+    - labelFoneCliente: CTkLabel
+    - entryFoneCliente: CTkEntry
+    - labelBairroCliente: CTkLabel
+    - entryBairroCliente: CTkEntry
+    - buttomRegistrarCliente: CTkButton
+    - labelRespostaCliente: CTkLabel
+
+    + registrarPedidoCliente(): void
+}
+
+class RegistrarPedidoPizza {
+    - controller: Controller
+    - labelTitulo: CTkLabel
+    - labelCliente: CTkLabel
+    - framePizza: CTkFrame
+    - labelSabor: CTkLabel
+    - comboSabor: CTkComboBox
+    - labelTamanho: CTkLabel
+    - comboTamanho: CTkComboBox
+    - labelQuantidade: CTkLabel
+    - entryQuantidade: CTkEntry
+    - buttomAdicionarPizza: CTkButton
+    - frameAdicionada: CTkFrame
+    - labelQuantidadePizza: CTkLabel
+    - labelSaborPizza: CTkLabel
+    - labelTamanhoPizza: CTkLabel
+    - labelPrecoPizza: CTkLabel
+    - labelRespostaPizza: CTkLabel
+    - buttomConfirmarPedido: CTkButton
+
+    + carregarSabores(): List
+    + adicionarPizza(): void
+    + confirmarPedido(): void
+}
+
+class ResumoPedido {
+    - controller: Controller
+    - labelTitulo: CTkLabel
+    - labelCliente: CTkLabel
+    - frameCliente: CTkFrame
+    - labelNomeCliente: CTkLabel
+    - labelNomeClienteRegistrado: CTkLabel
+    - labelEnderecoCliente: CTkLabel
+    - labelEnderecoClienteRegistrado: CTkLabel
+    - labelFoneCliente: CTkLabel
+    - labelFoneClienteRegistrado: CTkLabel
+    - labelBairroCliente: CTkLabel
+    - labelBairroClienteRegistrado: CTkLabel
+    - framePedido: CTkFrame
+    - labelQuantidadePedido: CTkLabel
+    - labelSaborPedido: CTkLabel
+    - labelTamanhoPedido: CTkLabel
+    - labelPrecoPedido: CTkLabel
+    - labelTotalPedido: CTkLabel
+    - labelTotalPedidoRegistrado: CTkLabel
+    - frameBotao: CTkFrame
+    - buttomFinalizarPedido: CTkButton
+    - buttomCancelarPedido: CTkButton
+
+    + finalizarPedido(): void
+    + cancelarPedido(): void
+}
+
+PostgreSQLConnection --|> Controller: "relacionado com" (1..N)
+Controller --|> PostgreSQLConnection: "composto por" (1..1)
+Atendente --|> Controller: "relacionado com" (0..N)
+Controller --|> Atendente: "composto por" (1..1)
+Cliente --|> Controller: "relacionado com" (1..N)
+Controller --|> Cliente: "composto por" (1..1)
+Pedido --|> Controller: "relacionado com" (1..N)
+Controller --|> Pedido: "composto por" (1..1)
+ItemPedido --|> Pedido: "composto po" (1..1)
+Pedido --|> ItemPedido: "relacionado com" (1..N)
+ItemPedido --|> Pizza: "composto por" (1..1)
+Pizza --|> ItemPedido: "relacionada com" (0..N)
+Controller --|> Login: "relacionado com" (0..N)
+Login --|> Controller: "composto por" (1..1)
+Controller --|> Menu: "relacionado com" (0..N)
+Menu --|> Controller: "composto por" (1..1)
+Controller --|> RegistrarPedidoCliente: "relacionado com" (0..N)
+RegistrarPedidoCliente --|> Controller: "composto por" (1..1)
+Controller --|> RegistrarPedidoPizza: "relacionado com" (0..N)
+RegistrarPedidoPizza --|> Controller: "composto por" (1..1)
+Controller --|> ResumoPedido: "relacionado com" (0..N)
+ResumoPedido --|> Controller: "composto por" (1..1)
+@enduml
