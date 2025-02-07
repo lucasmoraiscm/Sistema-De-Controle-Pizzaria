@@ -122,7 +122,8 @@ class RegistrarPedidoCliente(ctk.CTkToplevel):
         fone = self.entryFoneCliente.get()
         bairro = self.entryBairroCliente.get()
 
-        if controller.cadastrarCliente(nome, endereco, fone, bairro):
+        if nome and endereco and fone and bairro:
+            controller.cadastrarCliente(nome, endereco, fone, bairro)
             controller.cadastrarPedido(controller.getAtendente(), controller.getCliente())
             self.destroy()
             RegistrarPedidoPizza()
@@ -200,31 +201,36 @@ class RegistrarPedidoPizza(ctk.CTkToplevel):
         tamanho = self.comboTamanho.get()
         quantidade = self.entryQuantidade.get()
 
-        preco = controller.buscarPreco(sabor, tamanho)
-        pizza = controller.montarPizza(sabor, tamanho, preco)
+        if quantidade.isdigit() and int(quantidade) > 0:
+            preco = controller.buscarPreco(sabor, tamanho)
+            pizza = controller.montarPizza(sabor, tamanho, preco)
 
-        itemPedido = controller.montarItemPedido(pizza, quantidade)
-        pedido = controller.getPedido()
-        pedido.adicionarItem(itemPedido)
+            itemPedido = controller.montarItemPedido(pizza, quantidade)
+            pedido = controller.getPedido()
+            pedido.adicionarItem(itemPedido)
 
-        linha = 1
+            linha = 1
 
-        for item in pedido.getItens():
-            pizza = item.getPizza()
-            sabor = pizza.getSabor()
-            tamanho = pizza.getTamanho()
-            preco = pizza.getPreco()
-            quantidade = int(item.getQuantidade())
+            for item in pedido.getItens():
+                pizza = item.getPizza()
+                sabor = pizza.getSabor()
+                tamanho = pizza.getTamanho()
+                preco = pizza.getPreco()
+                quantidade = int(item.getQuantidade())
             
-            ctk.CTkLabel(self.frameAdicionada, text=f"{quantidade}", font=('Arial', 13)).grid(row=linha, column=0, padx=10, pady=5)
-            ctk.CTkLabel(self.frameAdicionada, text=f"{sabor}", font=('Arial', 13)).grid(row=linha, column=1, padx=10, pady=5)
-            ctk.CTkLabel(self.frameAdicionada, text=f"{tamanho}", font=('Arial', 13)).grid(row=linha, column=2, padx=10, pady=5)
-            ctk.CTkLabel(self.frameAdicionada, text=f"{preco:.2f}", font=('Arial', 13)).grid(row=linha, column=3, padx=10, pady=5)
+                ctk.CTkLabel(self.frameAdicionada, text=f"{quantidade}", font=('Arial', 13)).grid(row=linha, column=0, padx=10, pady=5)
+                ctk.CTkLabel(self.frameAdicionada, text=f"{sabor}", font=('Arial', 13)).grid(row=linha, column=1, padx=10, pady=5)
+                ctk.CTkLabel(self.frameAdicionada, text=f"{tamanho}", font=('Arial', 13)).grid(row=linha, column=2, padx=10, pady=5)
+                ctk.CTkLabel(self.frameAdicionada, text=f"{preco:.2f}", font=('Arial', 13)).grid(row=linha, column=3, padx=10, pady=5)
             
-            linha += 1
+                linha += 1
         
-        self.labelRespostaPizza.configure(text=" ", text_color="green")
-        self.labelRespostaPizza.configure(text="Pizza adicionada ao pedido!", text_color="green")
+            self.labelRespostaPizza.configure(text=" ", text_color="green")
+            self.labelRespostaPizza.configure(text="Pizza adicionada ao pedido!", text_color="green")
+
+        else:
+            self.labelRespostaPizza.configure(text=" ", text_color="red")
+            self.labelRespostaPizza.configure(text="Quantidade inválida!", text_color="red")
 
     def confirmarPedido(self):
         self.destroy()
