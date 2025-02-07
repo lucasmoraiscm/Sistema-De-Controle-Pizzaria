@@ -77,36 +77,41 @@ class RegistrarPedidoCliente(ctk.CTkToplevel):
         self.labelCliente = ctk.CTkLabel(self, text='CLIENTE', font=('Arial', 16))
         self.labelCliente.pack(padx=10)
 
-        self.frame = ctk.CTkFrame(self)
-        self.frame.pack(pady=20)
+        self.frameDadosCliente = ctk.CTkFrame(self)
+        self.frameDadosCliente.pack(pady=20)
 
-        self.labelNomeCliente = ctk.CTkLabel(self.frame, text='NOME')
+        self.labelNomeCliente = ctk.CTkLabel(self.frameDadosCliente, text='NOME')
         self.labelNomeCliente.grid(row=0, column=0, padx=10, pady=10)
 
-        self.entryNomeCliente = ctk.CTkEntry(self.frame, placeholder_text='Digite o nome')
+        self.entryNomeCliente = ctk.CTkEntry(self.frameDadosCliente, placeholder_text='Digite o nome')
         self.entryNomeCliente.grid(row=0, column=1, padx=10, pady=10)
 
-        self.labelEnderecoCliente = ctk.CTkLabel(self.frame, text='ENDEREÇO')
+        self.labelEnderecoCliente = ctk.CTkLabel(self.frameDadosCliente, text='ENDEREÇO')
         self.labelEnderecoCliente.grid(row=1, column=0, padx=10, pady=10)
 
-        self.entryEnderecoCliente = ctk.CTkEntry(self.frame, placeholder_text='Digite o endereço')
+        self.entryEnderecoCliente = ctk.CTkEntry(self.frameDadosCliente, placeholder_text='Digite o endereço')
         self.entryEnderecoCliente.grid(row=1, column=1, padx=10, pady=10)
 
-        self.labelFoneCliente = ctk.CTkLabel(self.frame, text='TELEFONE')
+        self.labelFoneCliente = ctk.CTkLabel(self.frameDadosCliente, text='TELEFONE')
         self.labelFoneCliente.grid(row=2, column=0, padx=10, pady=10)
 
-        self.entryFoneCliente = ctk.CTkEntry(self.frame, placeholder_text='Digite o telefone')
+        self.entryFoneCliente = ctk.CTkEntry(self.frameDadosCliente, placeholder_text='Digite o telefone')
         self.entryFoneCliente.grid(row=2, column=1, padx=10, pady=10)
 
-        self.labelBairroCliente = ctk.CTkLabel(self.frame, text='BAIRRO')
+        self.labelBairroCliente = ctk.CTkLabel(self.frameDadosCliente, text='BAIRRO')
         self.labelBairroCliente.grid(row=3, column=0, padx=10, pady=10)
 
-        self.entryBairroCliente = ctk.CTkEntry(self.frame, placeholder_text='Digite o bairro')
+        self.entryBairroCliente = ctk.CTkEntry(self.frameDadosCliente, placeholder_text='Digite o bairro')
         self.entryBairroCliente.grid(row=3, column=1, padx=10, pady=10)
 
+        self.frameBotaoCliente = ctk.CTkFrame(self)
+        self.frameBotaoCliente.pack(pady=20)
 
-        self.buttomRegistrarCliente = ctk.CTkButton(self, text='Registrar Cliente', fg_color='green', hover_color='darkgreen', command=self.registrarPedidoCliente)
-        self.buttomRegistrarCliente.pack(padx=10, pady=10)
+        self.buttomRegistrarCliente = ctk.CTkButton(self.frameBotaoCliente, text='Registrar Cliente', fg_color='green', hover_color='darkgreen', command=self.registrarPedidoCliente)
+        self.buttomRegistrarCliente.grid(row=0, column=0, padx=10, pady=10)
+
+        self.buttomResetarCliente = ctk.CTkButton(self.frameBotaoCliente, text='Resetar', fg_color='#ff9500', hover_color='#ff7b00', command=self.resetarPedidoCliente)
+        self.buttomResetarCliente.grid(row=0, column=1, padx=10, pady=10)
 
         self.labelRespostaCliente = ctk.CTkLabel(self, text='', font=('Arial', 14), text_color='red')
         self.labelRespostaCliente.pack(padx=10, pady=10)
@@ -123,6 +128,10 @@ class RegistrarPedidoCliente(ctk.CTkToplevel):
             RegistrarPedidoPizza()
         else:
             self.labelRespostaCliente.configure(text="Dados incompletos ou incorretos!", text_color="red")
+
+    def resetarPedidoCliente(self):
+        self.destroy()
+        RegistrarPedidoCliente()
 
 
 class RegistrarPedidoPizza(ctk.CTkToplevel):
@@ -314,7 +323,7 @@ class ResumoPedido(ctk.CTkToplevel):
         self.buttomFinalizarPedido = ctk.CTkButton(self.frameBotao, text='Finalizar Pedido', fg_color='green', hover_color='darkgreen', command=self.finalizarPedido)
         self.buttomFinalizarPedido.grid(row=0, column=0, padx=10, pady=10)
 
-        self.buttomCancelarPedido = ctk.CTkButton(self.frameBotao, text='Cancelar Pedido', fg_color='red', hover_color='darkred', command=self.cancelarPedido)
+        self.buttomCancelarPedido = ctk.CTkButton(self.frameBotao, text='Cancelar Pedido', fg_color='#dd0000', hover_color='#b30000', command=self.cancelarPedido)
         self.buttomCancelarPedido.grid(row=0, column=1, padx=10, pady=10)
 
     def finalizarPedido(self):
